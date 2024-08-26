@@ -1,32 +1,31 @@
-import bodyParser from 'body-parser';
-import cors from 'cors';
-import path from 'path';
-import dotenv from 'dotenv';
-
-dotenv.config({
+const express = require('express');
+const bodyParser = require('body-parser');
+const cors = require('cors');
+const path = require('path');
+require('dotenv').config({
   path: path.resolve(__dirname, '../.env')
 });
 
-const app = express();
-const port = process.env.PORT || 8000;
+const PORT = process.env.PORT || 8000;
+
+const app = new express();
 
 app.use(bodyParser.json());
-app.use(
-  cors({
-    // origin: process.env.WHITELISTED_DOMAIN
-    //   ? process.env.WHITELISTED_DOMAIN.split(" ")
-    //   : undefined,
-  })
-);
+// app.use(
+//   // cors({
+//   //   origin: [process.env.WHITELISTED_DOMAIN && process.env.WHITELISTED_DOMAIN.split(' ')]
+//   // })
+// );
+const cityRouter = require('./routes/cityRoute');
+const kecamatanRouter = require('./routes/kecamatanRoute');
+const siswaRouter = require('./routes/siswaRoute');
 
-import authRouter from './routes/authRouter';
+app.use('/city', cityRouter);
+app.use('/kecamatan', kecamatanRouter);
+app.use('/siswa', siswaRouter);
 
-// app.use("/", (req: Request, res: Response) => {
-// 	res.status(200).send({data: "Hello World"});
-// });
 
-app.use('/auth', authRouter);
 
-app.listen(port, () => {
-  console.log(`server started on port ${port}`);
+app.listen(PORT, (req, res) => {
+  console.log(`Server started on port ${PORT}`);
 });
