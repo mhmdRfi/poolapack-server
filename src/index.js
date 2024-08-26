@@ -11,11 +11,11 @@ const PORT = process.env.PORT || 8000;
 const app = new express();
 
 app.use(bodyParser.json());
-// app.use(
-//   // cors({
-//   //   origin: [process.env.WHITELISTED_DOMAIN && process.env.WHITELISTED_DOMAIN.split(' ')]
-//   // })
-// );
+app.use(
+  cors({
+    origin: "*"
+  })
+);
 const cityRouter = require('./routes/cityRoute');
 const kecamatanRouter = require('./routes/kecamatanRoute');
 const siswaRouter = require('./routes/siswaRoute');

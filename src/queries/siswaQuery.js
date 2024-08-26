@@ -22,18 +22,47 @@ const postSiswaQuery = async (name, alamat, kecamatanId) => {
 
 const findSiswaQuery = async () => {
   try {
-    const result = await prisma.siswa.findMany({ where: { deletedAt: null } });
+    const result = await prisma.siswa.findMany({
+      where: { deletedAt: null },
+      include: {
+        kecamatan: {
+          select: {
+            name: true, 
+            cityId: true,
+            city: {
+              select: {
+                name: true 
+              }
+            }
+          }
+        }
+      }
+    });
     return result;
   } catch (err) {
     throw err;
   }
 };
 
+
 const findSoftDeletedSiswaQuery = async () => {
   const result = await prisma.siswa.findMany({
     where: {
       deletedAt: {
         not: null
+      }
+    },
+    include: {
+      kecamatan: {
+        select: {
+          name: true,
+          cityId: true,
+          city: {
+            select: {
+              name: true
+            }
+          }
+        }
       }
     }
   });

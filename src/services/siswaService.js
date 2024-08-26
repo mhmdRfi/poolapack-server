@@ -10,8 +10,9 @@ const {
 
 
 //POST
-const postSiswaService = async (name, alamat, kecamatanId) => {
+const postSiswaService = async (name, alamat, id) => {
   try {
+    const kecamatanId = parseInt(id, 10);
     const res = await postSiswaQuery(name, alamat, kecamatanId);
     return res;
   } catch (err) {
